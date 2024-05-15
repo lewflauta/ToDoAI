@@ -1,0 +1,44 @@
+
+
+pip install flask google-cloud-firestore
+
+from flask import Flask, request
+from google.cloud import firestore
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Initialize Firestore client
+db = firestore.Client()
+
+# Firestore collection
+todos_collection = db.collection('todos')
+
+@app.route('/todos', methods=['POST'])
+def create_todo():
+    req_data = request.get_json()
+    todo = todos_collection.document()
+    todo.set(req_data)
+    return {'id': todo.id}, 201
+
+@app.route('/todos', methods=['GET'])
+def read_todos():
+    todos = [doc.to_dict() for doc in todos_collection.stream()]
+    return {'todos': todos}, 200
+
+@app.route('/todos/<id>', methods=['PUT'])
+def update_todo(id):
+    req_data = request.get_json()
+    todo = todos_collection.document(id)
+    todo.update(req_data)
+    return {'message': 'Todo updated successfully'}, 200
+
+@app.route('/todos/<id>', methods=['DELETE'])
+def delete_todo(id):
+    todo = todos_collection.document(id)
+    todo.delete()
+    return {'message': 'Todo deleted successfully'}, 200
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

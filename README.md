@@ -49,4 +49,3 @@ Showcase your end-to-end skills by:
 * **Metrics:** If possible, share some metrics on model performance (e.g., accuracy of task prioritization).
 * **Deployment Instructions:**  Provide clear instructions on how to deploy and run the app.
 
-This project will not only demonstrate your AI development abilities but also your full-stack engineering prowess, making you a strong candidate for AI engineering roles. 
